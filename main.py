@@ -48,7 +48,7 @@ def get_count():
     delta = today - datetime.strptime(start_date, "%Y-%m-%d")
     return delta.days
 
-def get_birthday_yang():  #计算阳历生日
+def get_birthday_gong():  #计算公历生日
   next = datetime.strptime(str(date.today().year) + "-" + "07-22", "%Y-%m-%d")
   if next < datetime.now():
     next = next.replace(year=next.year + 1)
@@ -87,7 +87,7 @@ data = {
           "temperature_hb": {"value": hb_temperature}, 
           "love_days": {"value": get_count()}, 
           "birthday_left_nong": {"value": get_birthday_nong()},  
-          "birthday_left_yang": {"value": get_birthday_yang()},
+          "birthday_left_gong": {"value": get_birthday_gong()},
           "words": {"value": get_words(), "color": get_random_color()}
         }
 # print(data)

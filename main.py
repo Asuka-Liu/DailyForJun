@@ -22,7 +22,7 @@ start_date = os.environ['START_DATE']
 
 
 def get_today():#获得对应的农历   
-    numCn = ["天", "一", "二", "三", "四", "五", "六"]  
+    numCn = ["一", "二", "三", "四", "五", "六","天"]  
     year = datetime.now().year   
     month = datetime.now().month   
     day = datetime.now().day

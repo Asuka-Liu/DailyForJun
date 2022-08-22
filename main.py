@@ -1,5 +1,9 @@
 from datetime import date, datetime
+from unittest import result
+from borax.calendars.festivals import LunarSchema 
 import math
+
+from pkg_resources import register_loader_type
 from wechatpy import WeChatClient
 from wechatpy.client.api import WeChatMessage, WeChatTemplate
 import requests
@@ -34,11 +38,15 @@ def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
   return delta.days
 
-def get_birthday():
-  next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
-  if next < datetime.now():
-    next = next.replace(year=next.year + 1)
-  return (next - today).days
+# def get_birthday():  #计算阳历生日
+#   next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
+#   if next < datetime.now():
+#     next = next.replace(year=next.year + 1)
+#   return (next - today).days
+
+def get_birthday_nong():  #计算农历生日
+  result=LunarSchema(month=7,day=22)
+  return result.countdown
 
 def get_words():
   words = requests.get("https://api.shadiao.pro/chp")
@@ -57,6 +65,6 @@ wm = WeChatMessage(client)
 zz_weather, zz_temperature = get_weather_zz()
 hb_weather, hb_temperature = get_weather_hb()
 
-data = {"weather_zz":{"value":zz_weather},"temperature_zz":{"value":zz_temperature},"weather_hb":{"value":hb_weather},"temperature_hb":{"value":hb_temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
+data = {"weather_zz":{"value":zz_weather},"temperature_zz":{"value":zz_temperature},"weather_hb":{"value":hb_weather},"temperature_hb":{"value":hb_temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday_nong()},"words":{"value":get_words(), "color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
